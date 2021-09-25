@@ -1,9 +1,9 @@
 #!/bin/bash
 ARCH=`uname -a`
 CPU=`lscpu | grep 'Socket' | cut -d: -f2 | tr -d ' '`
-vCPU_CORES=`lscpu | grep 'CPU(s)' | head -1 | awk '{printf("%d", $2)}'`
-vCPU_THREADS=`lscpu | grep 'Thread(s) per core:' | head -1 | awk '{printf("%d", $4)}'`
-vCPU=$(($vCPU_CORES / $vCPU_THREADS))
+CPU_CORES=`lscpu | grep 'CPU(s)' | head -1 | awk '{printf("%d", $2)}'`
+CPU_THREADS=`lscpu | grep 'Thread(s) per core:' | head -1 | awk '{printf("%d", $4)}'`
+vCPU=$(($CPU_THREADS * $CPU_CORES * $CPU))
 MEM_USE=`free -m | grep 'Mem' | awk '{printf("%s/%sMB (%.2f%%)"), $3, $2, $3/$2*100}'`
 DISK_USE=`df -H --total | grep 'total' | awk '{printf("%s/%s (%s)"), $3, $4, $5}'`
 CPU_LOAD=`top -bn 1 | grep '%Cpu(s)' | awk '{printf("%s%%"), $2}'`
